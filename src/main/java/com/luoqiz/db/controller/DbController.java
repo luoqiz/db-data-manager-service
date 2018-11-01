@@ -34,4 +34,11 @@ public class DbController {
 		System.out.println(dbInfo.toString());
 		return ApiServiceBase.setSuccess(this.dbService.findColumnByTable(dbInfo));
 	}
+	
+	@ApiOperation(value="获取表的数据")
+	@GetMapping(value="/getDataByDbInfo")
+	private HttpResponseBase getDataByDbInfo(DbInfo dbInfo) {
+		System.out.println(dbInfo.toString());
+		return ApiServiceBase.setSuccess(this.dbService.findDataByDbInfo(dbInfo));
+	}
 }

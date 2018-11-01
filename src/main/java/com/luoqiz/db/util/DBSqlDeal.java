@@ -14,7 +14,7 @@ import java.util.Map;
 public class DBSqlDeal {
 
 	public static List<Map<String, Object>> executeSql(Connection connection, String sql) {
-		ArrayList<Map<String,Object>> results = new ArrayList<>();
+		ArrayList<Map<String, Object>> results = new ArrayList<>();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Statement cs = null;
@@ -36,8 +36,27 @@ public class DBSqlDeal {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		DBSqlDeal.closecon(connection, ps, rs, cs);
+		DBSqlDeal.closecon(null, ps, rs, cs);
 		return results;
+	}
+
+	public static int selectCount(Connection connection, String sql) {
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Statement cs = null;
+		int result = 0;
+		try {
+			cs = connection.createStatement();
+			rs = cs.executeQuery(sql);
+			while(rs.next())
+			{
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DBSqlDeal.closecon(null, ps, rs, cs);
+		return result;
 	}
 
 	public static Connection getCon(String driverName, String dbUrl, String username, String password) {

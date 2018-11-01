@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.luoqiz.db.model.DbInfo;
 import com.luoqiz.db.util.DBSqlDeal;
 
-public class MssqlManager implements DBmanager {
+public class MssqlManager extends DBmanagerAdapter {
 
 	public Connection getConnect(DbInfo connectModel) {
 		if (connectModel.getDbPort() == null) {
@@ -41,5 +41,16 @@ public class MssqlManager implements DBmanager {
 				+ " FROM syscolumns a left join systypes b on a.xusertype=b.xusertype inner join sysobjects d on a.id=d.id  and d.xtype='U' and  d.name<>'dtproperties' left join syscomments e on a.cdefault=e.id left join sys.extended_properties g on a.id=G.major_id and a.colid=g.minor_id  left join sys.extended_properties f"
 				+ " on d.id=f.major_id and f.minor_id=0 where d.name='" + tableName + "' order by  a.id,a.colorder";
 		return DBSqlDeal.executeSql(connection, sql);
+	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection connection, String dbName, String tableName) {
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection con, DbInfo dbInfo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

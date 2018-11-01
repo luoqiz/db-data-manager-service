@@ -9,20 +9,21 @@ import org.apache.commons.lang3.StringUtils;
 import com.luoqiz.db.model.DbInfo;
 import com.luoqiz.db.util.DBSqlDeal;
 
-public class MysqlManager implements DBmanager {
+public class MysqlManager extends DBmanagerAdapter {
 
 	public Connection getConnect(DbInfo connectModel) {
-		if(connectModel.getDbPort()==null) {
+		if (connectModel.getDbPort() == null) {
 			connectModel.setDbPort(3306);
 		}
-		if(StringUtils.isBlank(connectModel.getDbUserName())) {
+		if (StringUtils.isBlank(connectModel.getDbUserName())) {
 			connectModel.setDbUserName("root");
 		}
-		if(StringUtils.isBlank(connectModel.getDbPassword())) {
+		if (StringUtils.isBlank(connectModel.getDbPassword())) {
 			connectModel.setDbPassword("");
 		}
 		String driverName = "com.mysql.jdbc.Driver";
-		String dbUrl = String.format("jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false",
+		String dbUrl = String.format(
+				"jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT&useSSL=false",
 				connectModel.getDbAddr(), connectModel.getDbPort(), connectModel.getDbName());
 		return DBSqlDeal.getCon(driverName, dbUrl, connectModel.getDbUserName(), connectModel.getDbPassword());
 	}
@@ -37,7 +38,27 @@ public class MysqlManager implements DBmanager {
 	public List<Map<String, Object>> getColumnByTable(Connection connection, String dbName, String tableName) {
 		String sql = "select ordinal_position as fieldNum,column_name as fieldName,data_type as fieldType,'' as fieldIndex,column_key as fieldKey,character_maximum_length as fieldLen,is_nullAble as fieldIsNull,column_default as fieldDefault,column_comment as fieldMark "
 				+ "from information_schema.columns where table_name='" + tableName + "' AND TABLE_SCHEMA='" + dbName
-				+ "'";
+				+ "' ORDER BY fieldNum asc";
 		return DBSqlDeal.executeSql(connection, sql);
 	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection connection, String dbName, String tableName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection con, DbInfo dbInfo) {
+		List<Map<String, Object>> columnList = getColumnByTable(con, dbInfo.getDbName(), dbInfo.getTableName());
+		String columnString = "";
+		for (Map<String, Object> map : columnList) {
+			columnString += "," + map.get("columnName");
+		}
+		String sql = "select " + columnString.substring(1) + " from " + dbInfo.getDbName() + "."
+				+ dbInfo.getTableName();
+
+		return DBSqlDeal.executeSql(con, sql);
+	}
+
 }

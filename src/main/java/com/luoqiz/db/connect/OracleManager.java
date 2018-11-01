@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.luoqiz.db.model.DbInfo;
 import com.luoqiz.db.util.DBSqlDeal;
 
-public class OracleManager implements DBmanager {
+public class OracleManager extends DBmanagerAdapter {
 
 	public Connection getConnect(DbInfo connectModel) {
 		if (connectModel.getDbPort() == null) {
@@ -34,6 +34,18 @@ public class OracleManager implements DBmanager {
 
 	@Override
 	public List<Map<String, Object>> getColumnByTable(Connection connection, String dbName, String tableName) {
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection connection, String dbName, String tableName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Map<String, Object>> getDataByDBInfo(Connection con, DbInfo dbInfo) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
