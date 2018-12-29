@@ -2,7 +2,7 @@ package com.luoqiz.db.connect;
 
 import java.sql.Connection;
 
-import com.luoqiz.db.model.DbInfo;
+import com.luoqiz.code.entity.DatabaseInfo;
 import com.luoqiz.db.util.DBSqlDeal;
 
 public abstract class DBmanagerAdapter implements DBmanager {
@@ -23,7 +23,7 @@ public abstract class DBmanagerAdapter implements DBmanager {
 	 * @param connectModel
 	 * @return
 	 */
-	public int selectCount(Connection con, DbInfo dbInfo) {
+	public int selectCount(Connection con, DatabaseInfo dbInfo) {
 		String sql = "select count(1)  from " + dbInfo.getDbName() + "." + dbInfo.getTableName();
 		return DBSqlDeal.selectCount(con, sql);
 	};

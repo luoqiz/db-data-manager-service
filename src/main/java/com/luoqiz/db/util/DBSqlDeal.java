@@ -8,13 +8,53 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+
+import com.luoqiz.code.entity.ColumnInfo;
 
 public class DBSqlDeal {
 
-	public static List<Map<String, Object>> executeSql(Connection connection, String sql) {
-		ArrayList<Map<String, Object>> results = new ArrayList<>();
+	public static ArrayList<ColumnInfo> executeSql(Connection connection, String sql, boolean camelCase) {
+		ArrayList<ColumnInfo> results = new ArrayList<>();
+		ResultSet rs = null;
+		PreparedStatement ps = null;
+		Statement cs = null;
+		try {
+			cs = connection.createStatement();
+			rs = cs.executeQuery(sql);
+			ResultSetMetaData rsmd = rs.getMetaData();
+			// 通过rsmd获取该结果集有多少列
+			int columnNum = rsmd.getColumnCount();
+			// 循环取出数据，并封装到arraylist中
+			while (rs.next()) {
+				ColumnInfo columnInfo = new ColumnInfo();
+				Map<String, Object> map = new HashMap<>();
+				Object[] objects = new Object[columnNum];
+				for (int i = 1; i <= objects.length; i++) {
+					if (camelCase) {
+						map.put(ConvertUtils.camelCase(rsmd.getColumnName(i), '_', true), rs.getObject(i));
+					} else {
+						columnInfo.setDbColumnType(rsmd.getColumnTypeName(i));
+						columnInfo.setJavaColumnType(rsmd.getColumnClassName(i));
+						columnInfo.setDbColumnName(rsmd.getColumnName(i));
+						columnInfo.setValue(rs.getObject(i));
+					}
+				}
+				results.add(columnInfo);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		DBSqlDeal.closecon(null, ps, rs, cs);
+		return results;
+	}
+
+	public static ArrayList<ColumnInfo> executeSql(Connection connection, String sql) {
+		return executeSql(connection, sql, false);
+	}
+
+	public static ArrayList<Map<String,Object>> executeSqlMap(Connection connection, String sql, boolean camelCase) {
+		ArrayList<Map<String,Object>> results = new ArrayList<>();
 		ResultSet rs = null;
 		PreparedStatement ps = null;
 		Statement cs = null;
@@ -29,7 +69,17 @@ public class DBSqlDeal {
 				Map<String, Object> map = new HashMap<>();
 				Object[] objects = new Object[columnNum];
 				for (int i = 1; i <= objects.length; i++) {
-					map.put(ConvertUtils.camelCase(rsmd.getColumnName(i), '_', true), rs.getObject(i));
+					if (camelCase) {
+						map.put(ConvertUtils.camelCase(rsmd.getColumnName(i), '_', true), rs.getObject(i));
+					} else {
+						System.out.println("--------------------");
+						System.out.println(rsmd.getColumnTypeName(i));
+						System.out.println(rsmd.getColumnClassName(i));
+						System.out.println(rsmd.getColumnName(i));
+						System.out.println(rsmd.getCatalogName(i));
+						System.out.println(rsmd.getSchemaName(i));
+						map.put(rsmd.getColumnName(i), rs.getObject(i));
+					}
 				}
 				results.add(map);
 			}
@@ -40,6 +90,10 @@ public class DBSqlDeal {
 		return results;
 	}
 
+	public static ArrayList<Map<String,Object>> executeSqlMap(Connection connection, String sql) {
+		return executeSqlMap(connection, sql, false);
+	}
+	
 	public static int selectCount(Connection connection, String sql) {
 		ResultSet rs = null;
 		PreparedStatement ps = null;
@@ -48,8 +102,7 @@ public class DBSqlDeal {
 		try {
 			cs = connection.createStatement();
 			rs = cs.executeQuery(sql);
-			while(rs.next())
-			{
+			while (rs.next()) {
 				result = rs.getInt(1);
 			}
 		} catch (Exception e) {

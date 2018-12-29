@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.luoqiz.db.model.DbInfo;
+import com.luoqiz.code.entity.ColumnInfo;
+import com.luoqiz.code.entity.DatabaseInfo;
+import com.luoqiz.code.entity.TableInfo;
 import com.luoqiz.db.util.DBSqlDeal;
 
 public class OracleManager extends DBmanagerAdapter {
 
-	public Connection getConnect(DbInfo connectModel) {
+	public Connection getConnect(DatabaseInfo connectModel) {
 		if (connectModel.getDbPort() == null) {
 			connectModel.setDbPort(1521);
 		}
@@ -28,12 +30,12 @@ public class OracleManager extends DBmanagerAdapter {
 		return DBSqlDeal.getCon(driverName, dbUrl, connectModel.getDbUserName(), connectModel.getDbPassword());
 	}
 
-	public List<Map<String, Object>> getTableList(Connection connection, String dbName) {
+	public List<TableInfo> getTableList(Connection connection, String dbName) {
 		return null;
 	}
 
 	@Override
-	public List<Map<String, Object>> getColumnByTable(Connection connection, String dbName, String tableName) {
+	public List<ColumnInfo> getColumnByTable(Connection connection, String dbName, String tableName) {
 		return null;
 	}
 
@@ -44,8 +46,9 @@ public class OracleManager extends DBmanagerAdapter {
 	}
 
 	@Override
-	public List<Map<String, Object>> getDataByDBInfo(Connection con, DbInfo dbInfo) {
+	public List<Map<String, Object>> getDataByDBInfo(Connection con, DatabaseInfo dbInfo) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 }

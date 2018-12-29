@@ -4,7 +4,9 @@ import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
 
-import com.luoqiz.db.model.DbInfo;
+import com.luoqiz.code.entity.ColumnInfo;
+import com.luoqiz.code.entity.DatabaseInfo;
+import com.luoqiz.code.entity.TableInfo;
 
 public interface DBmanager {
 
@@ -14,8 +16,8 @@ public interface DBmanager {
 	 * @param connectModel
 	 * @return
 	 */
-	Connection getConnect(DbInfo dbInfo);
-	
+	Connection getConnect(DatabaseInfo dbInfo);
+
 	/**
 	 * 关闭连接
 	 * 
@@ -31,28 +33,40 @@ public interface DBmanager {
 	 * @param dbName
 	 * @return
 	 */
-	List<Map<String, Object>> getTableList(Connection connection, String dbName);
+	List<TableInfo> getTableList(Connection connection, String dbName);
 
 	/**
 	 * 获取表内所有列
+	 * 
 	 * @param connection
 	 * @param dbName
 	 * @param tableName
 	 * @return
 	 */
-	List<Map<String, Object>> getColumnByTable(Connection connection, String dbName, String tableName);
+	List<ColumnInfo> getColumnByTable(Connection connection, String dbName, String tableName);
 
 	/**
 	 * 获取表内指定数据
+	 * 
 	 * @param connection
 	 * @param dbName
 	 * @param tableName
 	 * @return
 	 */
-	List<Map<String, Object>> getDataByDBInfo(Connection connection,String dbName, String tableName);
+	List<Map<String, Object>> getDataByDBInfo(Connection connection, String dbName, String tableName);
 
-	List<Map<String,Object>> getDataByDBInfo(Connection con, DbInfo dbInfo);
+	/**
+	 * 获取数据
+	 */
+	List<Map<String, Object>> getDataByDBInfo(Connection con, DatabaseInfo dbInfo);
 
-	int selectCount(Connection con, DbInfo dbInfo);
+	/**
+	 * 获取记录总数
+	 * 
+	 * @param con
+	 * @param dbInfo
+	 * @return
+	 */
+	int selectCount(Connection con, DatabaseInfo dbInfo);
 
 }
