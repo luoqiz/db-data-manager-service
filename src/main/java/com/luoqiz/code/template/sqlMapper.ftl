@@ -11,5 +11,7 @@
 	</#if>
 	</#list>
     </resultMap>
-    
+    <#if tempTableInfo.tempStr?? && tempTableInfo.tempStr!="">
+	${tempTableInfo.tempStr}
+	</#if>
 </mapper>

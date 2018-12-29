@@ -1,8 +1,10 @@
 package com.luoqiz.code;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -17,6 +19,7 @@ import com.luoqiz.code.entity.TableInfo;
 import com.luoqiz.code.generator.CodeGenerationConfiguration;
 import com.luoqiz.db.connect.DBmanager;
 import com.luoqiz.db.connect.DbManagerFactory;
+import com.luoqiz.db.util.RegexUtils;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -37,34 +40,6 @@ public class CodeGenerator {
 //		cgdfg.setTableMatch("^qrtz.*");
 		cgdfg.setTableMatch("qrtz_calendars");
 		cgdfg.setAuthor("luoqiz");
-		// 数据库信息
-		DatabaseInfo dbInfo = new DatabaseInfo();
-		dbInfo.setDbAddr("180.76.237.66");
-		dbInfo.setDbName("QRTZ");
-		dbInfo.setDbPort(3306);
-		dbInfo.setDbType("mysql");
-		dbInfo.setDbUserName("root");
-		dbInfo.setDbPassword("!qaz2wsX");
-		DBmanager dbmanager = DbManagerFactory.getManager(dbInfo);
-		Connection con = dbmanager.getConnect(dbInfo);
-		log.info(cgdfg.getTableMatch());
-		if (cgdfg.getTableMatch() != null) {
-			// 获取所有的表
-			List<TableInfo> tableInfoList = dbmanager.getTableList(con, dbInfo.getDbName());
-			tableInfoList.forEach(tableInfo -> {
-				boolean isMatcher = tableInfo.getTableName().matches(cgdfg.getTableMatch());
-				log.info(tableInfo.getTableName() + " 匹配成功：" + isMatcher);
-				// 字符串是否与正则表达式相匹配
-				if (isMatcher) {
-					List<ColumnInfo> result = dbmanager.getColumnByTable(con, dbInfo.getDbName(),
-							tableInfo.getTableName());
-					tableInfo.setColumnInfoList(result);
-					cgdfg.getTableInfoList().add(tableInfo);
-				}
-			});
-		}
-
-		dbmanager.closeConnect(con);
 
 		cgdfg.setEntityTargetPackage("com.luoqiz.code.test.entity");
 		cgdfg.setMapperTargetPackage("com.luoqiz.code.test.mapper");
@@ -76,13 +51,44 @@ public class CodeGenerator {
 		cgdfg.setServiceImplTargetPackage("com.luoqiz.code.test.serviceImpl");
 		cgdfg.setControllerTargetPackage("com.luoqiz.code.test.controller");
 
-		cgdfg.setLombokEnable(false);
+		cgdfg.setLombokEnable(true);
 		cgdfg.setSwaggerEnable(true);
+
+		// 数据库信息
+		DatabaseInfo dbInfo = new DatabaseInfo();
+		dbInfo.setDbAddr("180.76.237.66");
+		dbInfo.setDbName("QRTZ");
+		dbInfo.setDbPort(3306);
+		dbInfo.setDbType("mysql");
+		dbInfo.setDbUserName("root");
+		dbInfo.setDbPassword("!qaz2wsX");
+
 		CodeGenerator cg = new CodeGenerator(cgdfg);
-		cg.generator();
+		cg.generator(dbInfo);
 	}
 
-	public void generator() {
+	public void generator(DatabaseInfo dbInfo) {
+		DBmanager dbmanager = DbManagerFactory.getManager(dbInfo);
+		Connection con = dbmanager.getConnect(dbInfo);
+		log.info(cGCfg.getTableMatch());
+		if (cGCfg.getTableMatch() != null) {
+			// 获取所有的表
+			List<TableInfo> tableInfoList = dbmanager.getTableList(con, dbInfo.getDbName());
+			tableInfoList.forEach(tableInfo -> {
+				boolean isMatcher = tableInfo.getTableName().matches(cGCfg.getTableMatch());
+				log.info(tableInfo.getTableName() + " 匹配成功：" + isMatcher);
+				// 字符串是否与正则表达式相匹配
+				if (isMatcher) {
+					List<ColumnInfo> result = dbmanager.getColumnByTable(con, dbInfo.getDbName(),
+							tableInfo.getTableName());
+					tableInfo.setColumnInfoList(result);
+					cGCfg.getTableInfoList().add(tableInfo);
+				}
+			});
+		}
+
+		dbmanager.closeConnect(con);
+
 		// 创建Freemarker配置实例
 		Configuration cfg = new Configuration(Configuration.getVersion());
 		try {
@@ -114,7 +120,7 @@ public class CodeGenerator {
 		if (StringUtils.isNoneEmpty(cGCfg.getServiceImplTargetPackage())) {
 			createServiceImpl(cfg);
 		}
-		
+
 		if (StringUtils.isNoneEmpty(cGCfg.getControllerTargetPackage())) {
 			createController(cfg);
 		}
@@ -122,8 +128,9 @@ public class CodeGenerator {
 
 	/**
 	 * 生成controller类
+	 * 
 	 * @param cfg
-	 * @return 
+	 * @return
 	 */
 	private boolean createController(Configuration cfg) {
 		cGCfg.getTableInfoList().forEach(tableInfo -> {
@@ -150,7 +157,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("controller文件所在路径：" + file.getAbsolutePath());
+				log.info(tableInfo.getClassName() + "Controller.java 文件所在路径：" + file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -162,6 +169,7 @@ public class CodeGenerator {
 
 	/**
 	 * 生成service接口实现类
+	 * 
 	 * @param cfg
 	 * @return
 	 */
@@ -190,7 +198,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("serviceImpl实现类文件所在路径：" + file.getAbsolutePath());
+				log.info(tableInfo.getClassName() + "ServiceImpl.java 实现类文件所在路径：" + file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -231,7 +239,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("service接口文件所在路径：" + file.getAbsolutePath());
+				log.info("%sService.java 接口文件所在路径：%s", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -264,6 +272,18 @@ public class CodeGenerator {
 					pojoFile.mkdirs();
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Mapper.xml");
+				// 文件已存在则读取出来放到新建的文件中
+				if (file.exists()) {
+					StringBuilder strBuilder = new StringBuilder();
+					BufferedReader tempReader = new BufferedReader(new FileReader(file));
+					String tempstr = null;
+					while ((tempstr = tempReader.readLine()) != null) {
+						strBuilder.append(tempstr);
+					}
+					tempReader.close();
+					tableInfo.setTempStr(
+							RegexUtils.twoStringBetweenGreed(strBuilder.toString(), "resultMap>", "</mapper>"));
+				}
 				out = new FileOutputStream(file);
 				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
 				cGCfg.setTempTableInfo(tableInfo);
@@ -271,7 +291,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("sqlMapper.xml文件所在路径：" + file.getAbsolutePath());
+				log.info("{}Mapper.xml 文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -304,6 +324,17 @@ public class CodeGenerator {
 					pojoFile.mkdirs();
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Mapper.java");
+				// 文件已存在则读取出来放到新建的文件中
+				if (file.exists()) {
+					StringBuilder strBuilder = new StringBuilder();
+					BufferedReader tempReader = new BufferedReader(new FileReader(file));
+					String tempstr = null;
+					while ((tempstr = tempReader.readLine()) != null) {
+						strBuilder.append(tempstr);
+					}
+					tempReader.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(strBuilder.toString(), "\\{", "\\}"));
+				}
 				out = new FileOutputStream(file);
 				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
 				cGCfg.setTempTableInfo(tableInfo);
@@ -311,7 +342,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("mapper接口文件所在路径：" + file.getAbsolutePath());
+				log.info("{}Mapper.java文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -350,7 +381,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				System.out.println("entity文件所在路径：" + file.getAbsolutePath());
+				log.info("{}Entity.java 文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -18,5 +18,7 @@ public interface ${tempTableInfo.className?cap_first}Mapper extends ${word}<${te
 <#else>
 public interface ${tempTableInfo.className?cap_first}Mapper{
 </#if>
-
+	<#if tempTableInfo.tempStr?? && tempTableInfo.tempStr!="">
+	${tempTableInfo.tempStr}
+	</#if>
 }

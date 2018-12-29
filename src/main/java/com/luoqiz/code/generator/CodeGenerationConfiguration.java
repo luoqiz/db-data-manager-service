@@ -2,7 +2,6 @@ package com.luoqiz.code.generator;
 
 import java.util.ArrayList;
 
-import com.luoqiz.code.entity.DatabaseInfo;
 import com.luoqiz.code.entity.TableInfo;
 
 import lombok.Data;
@@ -11,8 +10,6 @@ import lombok.Data;
 public class CodeGenerationConfiguration {
 
 	String baseTargetProject = "src/main/java";
-	// 数据库信息
-	private DatabaseInfo dbInfo;
 
 	// 数据库信息
 	private TableInfo tempTableInfo;
