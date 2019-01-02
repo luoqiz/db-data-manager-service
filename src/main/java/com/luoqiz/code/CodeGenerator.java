@@ -1,10 +1,9 @@
 package com.luoqiz.code;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -28,6 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CodeGenerator {
 
+	public static String encoding = "UTF-8";
+
 	private CodeGenerationConfiguration cGCfg;
 
 	public CodeGenerator(CodeGenerationConfiguration codeGenerationConfiguration) {
@@ -38,18 +39,19 @@ public class CodeGenerator {
 
 		CodeGenerationConfiguration cgdfg = new CodeGenerationConfiguration();
 //		cgdfg.setTableMatch("^qrtz.*");
-		cgdfg.setTableMatch("qrtz_calendars");
+		cgdfg.setTableMatch("event_record");
+//		cgdfg.setTableMatch(".*");
 		cgdfg.setAuthor("luoqiz");
 
-		cgdfg.setEntityTargetPackage("com.luoqiz.code.test.entity");
-		cgdfg.setMapperTargetPackage("com.luoqiz.code.test.mapper");
-		cgdfg.setMapperExtendsClass("com.luoqiz.db.config.MybatisMapper");
+		cgdfg.setEntityTargetPackage("com.boya.db.domain");
+		cgdfg.setMapperTargetPackage("com.boya.db.mapper");
+		cgdfg.setMapperExtendsClass("com.boya.db.config.MybatisMapper");
 		cgdfg.setSqlMapperTargetProject("src/main/resources");
-		cgdfg.setSqlMapperTargetPackage("sqlMapper");
+		cgdfg.setSqlMapperTargetPackage("sqlMapper/sys");
 		cgdfg.setTableAnnotation(true);
-		cgdfg.setServiceTargetPackage("com.luoqiz.code.test.service");
-		cgdfg.setServiceImplTargetPackage("com.luoqiz.code.test.serviceImpl");
-		cgdfg.setControllerTargetPackage("com.luoqiz.code.test.controller");
+//		cgdfg.setServiceTargetPackage("com.luoqiz.code.test.service");
+//		cgdfg.setServiceImplTargetPackage("com.luoqiz.code.test.serviceImpl");
+//		cgdfg.setControllerTargetPackage("com.luoqiz.code.test.controller");
 
 		cgdfg.setLombokEnable(true);
 		cgdfg.setSwaggerEnable(true);
@@ -57,7 +59,7 @@ public class CodeGenerator {
 		// 数据库信息
 		DatabaseInfo dbInfo = new DatabaseInfo();
 		dbInfo.setDbAddr("180.76.237.66");
-		dbInfo.setDbName("QRTZ");
+		dbInfo.setDbName("opnion_monitor");
 		dbInfo.setDbPort(3306);
 		dbInfo.setDbType("mysql");
 		dbInfo.setDbUserName("root");
@@ -150,8 +152,18 @@ public class CodeGenerator {
 					pojoFile.mkdirs();
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Controller.java");
+				// 文件已存在则读取出来放到新建的文件中
+				if (file.exists()) {
+					Long filelength = file.length();
+					byte[] filecontent = new byte[filelength.intValue()];
+					FileInputStream in = new FileInputStream(file);
+					in.read(filecontent);
+					in.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(new String(filecontent, encoding).toString(),
+							"\\{", "\\}"));
+				}
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();
@@ -191,8 +203,18 @@ public class CodeGenerator {
 					pojoFile.mkdirs();
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "ServiceImpl.java");
+				// 文件已存在则读取出来放到新建的文件中
+				if (file.exists()) {
+					Long filelength = file.length();
+					byte[] filecontent = new byte[filelength.intValue()];
+					FileInputStream in = new FileInputStream(file);
+					in.read(filecontent);
+					in.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(new String(filecontent, encoding).toString(),
+							"\\{", "\\}"));
+				}
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();
@@ -232,8 +254,18 @@ public class CodeGenerator {
 					pojoFile.mkdirs();
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Service.java");
+				// 文件已存在则读取出来放到新建的文件中
+				if (file.exists()) {
+					Long filelength = file.length();
+					byte[] filecontent = new byte[filelength.intValue()];
+					FileInputStream in = new FileInputStream(file);
+					in.read(filecontent);
+					in.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(new String(filecontent, encoding).toString(),
+							"\\{", "\\}"));
+				}
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();
@@ -274,18 +306,16 @@ public class CodeGenerator {
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Mapper.xml");
 				// 文件已存在则读取出来放到新建的文件中
 				if (file.exists()) {
-					StringBuilder strBuilder = new StringBuilder();
-					BufferedReader tempReader = new BufferedReader(new FileReader(file));
-					String tempstr = null;
-					while ((tempstr = tempReader.readLine()) != null) {
-						strBuilder.append(tempstr);
-					}
-					tempReader.close();
-					tableInfo.setTempStr(
-							RegexUtils.twoStringBetweenGreed(strBuilder.toString(), "resultMap>", "</mapper>"));
+					Long filelength = file.length();
+					byte[] filecontent = new byte[filelength.intValue()];
+					FileInputStream in = new FileInputStream(file);
+					in.read(filecontent);
+					in.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(new String(filecontent, encoding).toString(),
+							"resultMap>", "</mapper>"));
 				}
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();
@@ -326,17 +356,16 @@ public class CodeGenerator {
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Mapper.java");
 				// 文件已存在则读取出来放到新建的文件中
 				if (file.exists()) {
-					StringBuilder strBuilder = new StringBuilder();
-					BufferedReader tempReader = new BufferedReader(new FileReader(file));
-					String tempstr = null;
-					while ((tempstr = tempReader.readLine()) != null) {
-						strBuilder.append(tempstr);
-					}
-					tempReader.close();
-					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(strBuilder.toString(), "\\{", "\\}"));
+					Long filelength = file.length();
+					byte[] filecontent = new byte[filelength.intValue()];
+					FileInputStream in = new FileInputStream(file);
+					in.read(filecontent);
+					in.close();
+					tableInfo.setTempStr(RegexUtils.twoStringBetweenGreed(new String(filecontent, encoding).toString(),
+							"\\{", "\\}"));
 				}
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();
@@ -375,7 +404,7 @@ public class CodeGenerator {
 				}
 				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Entity.java");
 				out = new FileOutputStream(file);
-				rd = new BufferedWriter(new OutputStreamWriter(out, "utf-8"));
+				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
 				t.process(cGCfg, rd);
 				rd.close();

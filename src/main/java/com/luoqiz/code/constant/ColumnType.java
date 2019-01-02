@@ -5,7 +5,7 @@ public interface ColumnType {
 	public static final String BIGINT = "bigint";
 	public static final String VARCHAR = "varchar";
 	public static final String CHAR = "char";
-	public static final String DATE = "date";
+	public static final String DATE = "Date";
 	public static final String TINYINT = "tinyint";
 	public static final String DATETIME = "datetime";
 	public static final String JSON = "json";

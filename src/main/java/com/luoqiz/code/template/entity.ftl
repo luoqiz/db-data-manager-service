@@ -4,6 +4,20 @@ package ${entityTargetPackage};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
+
+<#-- 定义是否引入时间类型变量 -->
+<#assign dateutil=false />
+<#list tempTableInfo.columnInfoList as columnInfo>
+<#if columnInfo["javaColumnType"]== 'Date'>
+	<#assign dateutil=true />
+</#if>
+</#list>
+
+<#if dateutil== true>
+import java.util.Date;
+</#if>
+
+
 <#if lombokEnable==true>
 import lombok.Data;
 </#if>

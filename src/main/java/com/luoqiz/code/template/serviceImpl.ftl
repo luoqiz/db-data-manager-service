@@ -134,6 +134,4 @@ public class ${tempTableInfo.className?cap_first}ServiceImpl implements ${tempTa
         return ${tempTableInfo.className?uncap_first}Mapper.updateByPrimaryKeySelective(${tempTableInfo.className?uncap_first});
     }
     
-    
- 
 }
