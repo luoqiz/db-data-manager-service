@@ -2,7 +2,7 @@ package ${mapperTargetPackage};
 
 <#if mapperExtendsClass?? && mapperExtendsClass!=''>
 import ${mapperExtendsClass};
-import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
+import ${entityTargetPackage}.${tempTableInfo.className?cap_first};
 
 /**
  * <#if author??>@author ${author}</#if>
@@ -12,7 +12,7 @@ import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
 <#list mapperExtendsClass?split(".") as word>
     <#if word_has_next>
 	<#else>
-public interface ${tempTableInfo.className?cap_first}Mapper extends ${word}<${tempTableInfo.className?cap_first}Entity> {
+public interface ${tempTableInfo.className?cap_first}Mapper extends ${word}<${tempTableInfo.className?cap_first}> {
 	</#if>
 </#list>
 <#else>

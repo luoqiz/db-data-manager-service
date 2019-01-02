@@ -5,13 +5,15 @@ public interface ColumnType {
 	public static final String BIGINT = "bigint";
 	public static final String VARCHAR = "varchar";
 	public static final String CHAR = "char";
-	public static final String DATE = "Date";
-	public static final String TINYINT = "tinyint";
+	public static final String DATE = "date";
 	public static final String DATETIME = "datetime";
+	public static final String TIMESTAMP = "timestamp";
+	public static final String TINYINT = "tinyint";
 	public static final String JSON = "json";
 	public static final String BLOB = "blob";
 	public static final String MEDIUMTEXT = "mediumtext";
 	public static final String INT = "int";
+	public static final String BIT = "bit";
 	
 	public static final String LONG = "Long";
 	public static final String STRING = "String";
@@ -22,4 +24,5 @@ public interface ColumnType {
 	public static final String BOOLEAN = "boolean";
 	public static final String BYTE = "byte";
 	public static final String BYTE_ARRAY = "byte[]";
+	public static final String DATE_CAP = "Date";
 }

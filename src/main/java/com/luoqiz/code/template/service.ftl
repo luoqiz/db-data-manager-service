@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import tk.mybatis.mapper.entity.Example;
-import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
+import ${entityTargetPackage}.${tempTableInfo.className?cap_first};
 
 /**
  * <#if author??>@author ${author}</#if>
@@ -14,45 +14,45 @@ import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
 public interface ${tempTableInfo.className?cap_first}Service {
 
     /**
-     * @Title: save${tempTableInfo.className?cap_first}Entity 
+     * @Title: save${tempTableInfo.className?cap_first} 
      * @Description: 添加一条记录(操作所有字段)
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int
      * @throws Exception
      */
-    int saveEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception;
+    int saveEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception;
 
     /**
      * @Title: save${tempTableInfo.className?cap_first}EntitySelective      
      * @Description: 添加一条记录(只操作不为空的字段)
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int 
      * @throws Exception
      */
-    int saveEntitySelective(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}Entity) throws Exception;
+    int saveEntitySelective(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception;
     
     /**
-     * @Title: saveList${tempTableInfo.className?cap_first}Entity      
+     * @Title: saveList${tempTableInfo.className?cap_first}      
      * @Description: 批量添加记录(只操作不为空的字段)
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int 
      * @throws Exception
      */
-    int saveListEntity(List<${tempTableInfo.className?cap_first}Entity> ${tempTableInfo.className?uncap_first}List) throws Exception;
+    int saveListEntity(List<${tempTableInfo.className?cap_first}> ${tempTableInfo.className?uncap_first}List) throws Exception;
     
     /**
      * @Title: count${tempTableInfo.className?cap_first}EntityByExample      
      * @Description: 根据条件获取记录总数
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int
      * @throws Exception 
      */
-    int countEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}Entity) throws Exception;
+    int countEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception;
     
     /**
      * @Title: count${tempTableInfo.className?cap_first}EntityByExample      
      * @Description: 根据条件获取记录总数
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int
      * @throws Exception 
      */
@@ -61,11 +61,11 @@ public interface ${tempTableInfo.className?cap_first}Service {
     /**
      * @Title: findByPrimaryKey  
      * @Description: 根据主键获取单条记录
-     * @param ${tempTableInfo.className?cap_first}Entity
-     * @return ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
+     * @return ${tempTableInfo.className?cap_first}
      * @throws Exception
      */
-    ${tempTableInfo.className?cap_first}Entity findByPrimaryKey(<@compress single_line=true>
+    ${tempTableInfo.className?cap_first} findByPrimaryKey(<@compress single_line=true>
 	<#-- 判断是否是第一个主键来决定是否添加逗号 -->
 	<#assign index=0 />
 	<#list tempTableInfo.columnInfoList as columnInfo>
@@ -80,25 +80,25 @@ public interface ${tempTableInfo.className?cap_first}Service {
     /**
      * @Title: findListEntityByExample      
      * @Description: 根据条件获取记录
-     * @param ${tempTableInfo.className?cap_first}EntityExample
-     * @return List<${tempTableInfo.className?cap_first}Entity> 
+     * @param ${tempTableInfo.className?cap_first}Example
+     * @return List<${tempTableInfo.className?cap_first}> 
      * @throws Exception 
      */
-    List<${tempTableInfo.className?cap_first}Entity> findListEntityByExample(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception;
+    List<${tempTableInfo.className?cap_first}> findListEntityByExample(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception;
     
     /**
      * @Title: findListEntityByExample      
      * @Description: 根据条件获取记录
-     * @param ${tempTableInfo.className?cap_first}EntityExample
-     * @return List<${tempTableInfo.className?cap_first}Entity> 
+     * @param ${tempTableInfo.className?cap_first}Example
+     * @return List<${tempTableInfo.className?cap_first}> 
      * @throws Exception 
      */
-    List<${tempTableInfo.className?cap_first}Entity> findListEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception;
+    List<${tempTableInfo.className?cap_first}> findListEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception;
     
     /**
-     * @Title: remove${tempTableInfo.className?cap_first}EntityByPrimaryKey     
+     * @Title: remove${tempTableInfo.className?cap_first}ByPrimaryKey     
      * @Description: 根据主键删除一条记录 
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int 
      * @throws Exception
      */
@@ -117,7 +117,7 @@ public interface ${tempTableInfo.className?cap_first}Service {
 	/**
      * @Title: removeListByPrimaryKey
      * @Description: 根据主键批量删除记录 
-     * @param ${tempTableInfo.className?cap_first}EntityArray
+     * @param ${tempTableInfo.className?cap_first}Array
      * @return int 
      * @throws Exception
      */
@@ -126,7 +126,7 @@ public interface ${tempTableInfo.className?cap_first}Service {
     /**
      * @Title: removeByExample
      * @Description: 根据主键批量删除记录 
-     * @param ${tempTableInfo.className?cap_first}EntityArray
+     * @param ${tempTableInfo.className?cap_first}Array
      * @return int 
      * @throws Exception
      */
@@ -135,19 +135,19 @@ public interface ${tempTableInfo.className?cap_first}Service {
     /**
      * @Title: updateByPrimaryKey     
      * @Description: 根据主键更新一条记录（所有字段更新）
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int
      * @throws Exception
      */
-    int updateByPrimaryKey(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception;
+    int updateByPrimaryKey(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception;
     
     /**
      * @Title: updateByPrimaryKeySelective     
      * @Description: 根据主键更新一条记录（不为空 的字段更新）
-     * @param ${tempTableInfo.className?cap_first}Entity
+     * @param ${tempTableInfo.className?cap_first}
      * @return int
      * @throws Exception
      */
-    int updateByPrimaryKeySelective(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception;
+    int updateByPrimaryKeySelective(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception;
     
 }

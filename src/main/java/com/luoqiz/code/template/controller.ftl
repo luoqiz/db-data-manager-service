@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
+import ${entityTargetPackage}.${tempTableInfo.className?cap_first};
 import ${serviceTargetPackage}.${tempTableInfo.className?cap_first}Service;
 import com.luoqiz.db.config.ParamException;
 
@@ -38,12 +38,14 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "全数据添加", notes = "对所有字段处理添加记录")
 	</#if>
     @PostMapping(value = "/save")
-    public int save${tempTableInfo.className}Entity(@RequestBody ${tempTableInfo.className}Entity ${tempTableInfo.className?uncap_first}) throws Exception {
+    public int save${tempTableInfo.className}(@RequestBody ${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception {
     <#list tempTableInfo.columnInfoList as columnInfo>
 	<#if columnInfo["nullValue"]==true>
+		<#if columnInfo["javaColumnType"] != 'boolean'>
 		if(${tempTableInfo.className?uncap_first}.get${columnInfo["javaColumnName"]?cap_first}() == null){
 			throw new ParamException("${columnInfo["dbColumnName"]}", "${columnInfo["comment"]}不能为null");
 		}
+		</#if>
 	</#if>
 	</#list>
         return ${tempTableInfo.className?uncap_first}Service.saveEntity(${tempTableInfo.className?uncap_first});
@@ -53,12 +55,14 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "部分数据添加", notes = "只对不为null的字段处理添加记录")
 	</#if>
     @PostMapping(value = "/saveSelective")
-    public int saveSelective(${tempTableInfo.className}Entity ${tempTableInfo.className?uncap_first}) throws Exception {
+    public int saveSelective(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception {
     <#list tempTableInfo.columnInfoList as columnInfo>
 	<#if columnInfo["nullValue"]==true>
+		<#if columnInfo["javaColumnType"] != 'boolean'>
 		if(${tempTableInfo.className?uncap_first}.get${columnInfo["javaColumnName"]?cap_first}() == null){
 			throw new ParamException("${columnInfo["dbColumnName"]}", "${columnInfo["comment"]}不能为null");
 		}
+		</#if>
 	</#if>
 	</#list>
         return ${tempTableInfo.className?uncap_first}Service.saveEntitySelective(${tempTableInfo.className?uncap_first});
@@ -68,7 +72,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "全数据更新", notes = "根据主键更新一条记录（所有字段更新）")
 	</#if>
     @PutMapping(value = "/update")
-    public int updateAllFiled(${tempTableInfo.className}Entity ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateAllFiled(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Service.updateByPrimaryKey(${tempTableInfo.className?uncap_first});
     }
     
@@ -76,7 +80,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "部分数据更新", notes = "根据主键更新一条记录（所有不为null的字段更新）")
 	</#if>
     @PatchMapping(value = "/update")
-    public int updateFiled(${tempTableInfo.className}Entity ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateFiled(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Service.updateByPrimaryKeySelective(${tempTableInfo.className?uncap_first});
     }
     
@@ -84,7 +88,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "获取特定记录", notes = "根据主键获取单条记录")
 	</#if>
    	@GetMapping(value = "/")
-   	public ${tempTableInfo.className?cap_first}Entity getByPrimaryKey(<@compress single_line=true>
+   	public ${tempTableInfo.className?cap_first} getByPrimaryKey(<@compress single_line=true>
 	<#-- 判断是否是第一个主键来决定是否添加逗号 -->
 	<#assign index=0 />
 	<#list tempTableInfo.columnInfoList as columnInfo>
@@ -112,7 +116,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "获取多条记录", notes = "根据条件获取多条记录")
 	</#if>
     @GetMapping(value = "/list")
-    public Map<String,Object> listEntity(${tempTableInfo.className}Entity ${tempTableInfo.className?uncap_first}, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "20") int pageSize) throws Exception {
+    public Map<String,Object> listEntity(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}, @RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "20") int pageSize) throws Exception {
         if (pageNum < 1) {
 			pageNum = 1;
 		}
@@ -120,7 +124,7 @@ public class ${tempTableInfo.className}Controller{
 			pageSize = 20;
 		}
         int total = ${tempTableInfo.className?uncap_first}Service.countEntity(${tempTableInfo.className?uncap_first});
-        List<${tempTableInfo.className}Entity> rows = ${tempTableInfo.className?uncap_first}Service.findListEntity(${tempTableInfo.className?uncap_first}, (pageNum - 1) * pageSize, pageSize);
+        List<${tempTableInfo.className}> rows = ${tempTableInfo.className?uncap_first}Service.findListEntity(${tempTableInfo.className?uncap_first}, (pageNum - 1) * pageSize, pageSize);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("total", total);
 		map.put("rows", rows);

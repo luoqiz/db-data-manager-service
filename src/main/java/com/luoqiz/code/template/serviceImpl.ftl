@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import tk.mybatis.mapper.entity.Example;
-import ${entityTargetPackage}.${tempTableInfo.className?cap_first}Entity;
+import ${entityTargetPackage}.${tempTableInfo.className?cap_first};
 import ${serviceTargetPackage}.${tempTableInfo.className?cap_first}Service;
 import ${mapperTargetPackage}.${tempTableInfo.className?cap_first}Mapper;
 
@@ -25,32 +25,32 @@ public class ${tempTableInfo.className?cap_first}ServiceImpl implements ${tempTa
     private ${tempTableInfo.className?cap_first}Mapper ${tempTableInfo.className?uncap_first}Mapper;
     
     @Override 
-    public int saveEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int saveEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Mapper.insert(${tempTableInfo.className?uncap_first});
     }
     
     @Override
-    public int saveEntitySelective(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}Entity) throws Exception{
-        return ${tempTableInfo.className?uncap_first}Mapper.insertSelective(${tempTableInfo.className?uncap_first}Entity);
+    public int saveEntitySelective(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception{
+        return ${tempTableInfo.className?uncap_first}Mapper.insertSelective(${tempTableInfo.className?uncap_first});
     }
     
     @Override
-    public int saveListEntity(List<${tempTableInfo.className?cap_first}Entity> ${tempTableInfo.className?uncap_first}List) throws Exception{
+    public int saveListEntity(List<${tempTableInfo.className?cap_first}> ${tempTableInfo.className?uncap_first}List) throws Exception{
         return ${tempTableInfo.className?uncap_first}Mapper.insertList(${tempTableInfo.className?uncap_first}List);
     }
     
     @Override
-    public int countEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}List) throws Exception{
+    public int countEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}List) throws Exception{
         return ${tempTableInfo.className?uncap_first}Mapper.selectCount(${tempTableInfo.className?uncap_first}List);
     }
     
     @Override
-    public int countEntityByExample(Example ${tempTableInfo.className?cap_first}EntityExample) throws Exception{
-        return ${tempTableInfo.className?uncap_first}Mapper.selectCountByExample(${tempTableInfo.className?cap_first}EntityExample);
+    public int countEntityByExample(Example ${tempTableInfo.className?cap_first}Example) throws Exception{
+        return ${tempTableInfo.className?uncap_first}Mapper.selectCountByExample(${tempTableInfo.className?cap_first}Example);
     }
 
 	@Override
-    public ${tempTableInfo.className?cap_first}Entity findByPrimaryKey(<@compress single_line=true>
+    public ${tempTableInfo.className?cap_first} findByPrimaryKey(<@compress single_line=true>
 	<#-- 判断是否是第一个主键来决定是否添加逗号 -->
 	<#assign index=0 />
 	<#list tempTableInfo.columnInfoList as columnInfo>
@@ -72,14 +72,14 @@ public class ${tempTableInfo.className?cap_first}ServiceImpl implements ${tempTa
     }
     
     @Override
-    public List<${tempTableInfo.className?cap_first}Entity> findListEntityByExample(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception{
-        Example ${tempTableInfo.className?uncap_first}Example = new Example(${tempTableInfo.className?cap_first}Entity.class);
+    public List<${tempTableInfo.className?cap_first}> findListEntityByExample(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception{
+        Example ${tempTableInfo.className?uncap_first}Example = new Example(${tempTableInfo.className?cap_first}.class);
         RowBounds rowBounds = new RowBounds(offset, limit);
         return ${tempTableInfo.className?uncap_first}Mapper.selectByExampleAndRowBounds(${tempTableInfo.className?uncap_first}Example, rowBounds);
     }
     
     @Override
-    public List<${tempTableInfo.className?cap_first}Entity> findListEntity(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception{
+    public List<${tempTableInfo.className?cap_first}> findListEntity(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}, int offset, int limit) throws Exception{
         RowBounds rowBounds = new RowBounds(offset, limit);
         return ${tempTableInfo.className?uncap_first}Mapper.selectByRowBounds(${tempTableInfo.className?uncap_first}, rowBounds);
     }
@@ -106,31 +106,25 @@ public class ${tempTableInfo.className?cap_first}ServiceImpl implements ${tempTa
         return ${tempTableInfo.className?uncap_first}Mapper.deleteByPrimaryKey(map);
     }
     
-    <#list tempTableInfo.columnInfoList as columnInfo>
-    <#if columnInfo["primayKey"]==true>
 	@Override
     public int removeListByPrimaryKey(List<Map<String,Object>> list) throws Exception{
-        Example example = new Example(${tempTableInfo.className?cap_first}Entity.class); 
+        Example example = new Example(${tempTableInfo.className?cap_first}.class); 
         //Criteria cc = example.createCriteria();
-        //cc.andIn("${columnInfo["javaColumnName"]}", ${columnInfo["javaColumnName"]}List);
         return ${tempTableInfo.className?uncap_first}Mapper.deleteByExample(example);
     }
-    <#break>
-	</#if>
-	</#list>
     
     @Override
-    public int removeByExample(Example ${tempTableInfo.className?cap_first}EntityExample) throws Exception{
-        return ${tempTableInfo.className?uncap_first}Mapper.deleteByExample(${tempTableInfo.className?cap_first}EntityExample);
+    public int removeByExample(Example ${tempTableInfo.className?cap_first}Example) throws Exception{
+        return ${tempTableInfo.className?uncap_first}Mapper.deleteByExample(${tempTableInfo.className?cap_first}Example);
     }
     
     @Override
-    public int updateByPrimaryKey(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateByPrimaryKey(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Mapper.updateByPrimaryKey(${tempTableInfo.className?uncap_first});
     }
     
     @Override
-    public int updateByPrimaryKeySelective(${tempTableInfo.className?cap_first}Entity ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateByPrimaryKeySelective(${tempTableInfo.className?cap_first} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Mapper.updateByPrimaryKeySelective(${tempTableInfo.className?uncap_first});
     }
     

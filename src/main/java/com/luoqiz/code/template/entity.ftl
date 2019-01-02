@@ -39,7 +39,7 @@ import javax.persistence.*;
 <#if tableAnnotation==true>
 @Table(name = "${tempTableInfo.tableName}")
 </#if>
-public class ${tempTableInfo.className?cap_first}Entity {
+public class ${tempTableInfo.className?cap_first} {
 	<#list tempTableInfo.columnInfoList as columnInfo>
 	
 	<#if columnInfo["comment"]?? && columnInfo["comment"] != "">

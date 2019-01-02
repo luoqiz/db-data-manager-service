@@ -130,11 +130,18 @@ public class MysqlManager extends DBmanagerAdapter {
 		case ColumnType.TINYINT:
 			columnInfo.setJavaColumnType(ColumnType.BOOLEAN);
 			break;
+		case ColumnType.BIT:
+			columnInfo.setJavaColumnType(ColumnType.BOOLEAN);
+			break;
 		case ColumnType.DATE:
-			columnInfo.setJavaColumnType(ColumnType.DATE);
+			columnInfo.setJavaColumnType(ColumnType.DATE_CAP);
 			break;
 		case ColumnType.DATETIME:
-			columnInfo.setJavaColumnType(ColumnType.DATE);
+			columnInfo.setJavaColumnType(ColumnType.DATE_CAP);
+			break;
+			
+		case ColumnType.TIMESTAMP:
+			columnInfo.setJavaColumnType(ColumnType.DATE_CAP);
 			break;
 //		case ColumnType.BLOB:
 //			columnInfo.setJavaColumnType(ColumnType.BYTE_ARRAY);

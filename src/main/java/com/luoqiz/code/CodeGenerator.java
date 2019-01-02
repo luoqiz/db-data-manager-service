@@ -39,8 +39,8 @@ public class CodeGenerator {
 
 		CodeGenerationConfiguration cgdfg = new CodeGenerationConfiguration();
 //		cgdfg.setTableMatch("^qrtz.*");
-		cgdfg.setTableMatch("event_record");
-//		cgdfg.setTableMatch(".*");
+//		cgdfg.setTableMatch("event_record");
+		cgdfg.setTableMatch(".*");
 		cgdfg.setAuthor("luoqiz");
 
 		cgdfg.setEntityTargetPackage("com.boya.db.domain");
@@ -402,7 +402,7 @@ public class CodeGenerator {
 				if (!pojoFile.exists()) {
 					pojoFile.mkdirs();
 				}
-				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + "Entity.java");
+				File file = new File(pojoFile.getAbsolutePath() + "/" + tableInfo.getClassName() + ".java");
 				out = new FileOutputStream(file);
 				rd = new BufferedWriter(new OutputStreamWriter(out, encoding));
 				cGCfg.setTempTableInfo(tableInfo);
@@ -410,7 +410,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				log.info("{}Entity.java 文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
+				log.info("{}.java 文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
