@@ -100,7 +100,7 @@ public class ${tempTableInfo.className?cap_first}ServiceImpl implements ${tempTa
     	Map<String, Object> map = new HashMap<String, Object>();
     <#list tempTableInfo.columnInfoList as columnInfo>
 		<#if columnInfo["primayKey"]==true>
-		map.put("${columnInfo["javaColumnType"]}", ${columnInfo["javaColumnName"]});
+		map.put("${columnInfo["javaColumnName"]}", ${columnInfo["javaColumnName"]});
 		</#if>
 	</#list>
         return ${tempTableInfo.className?uncap_first}Mapper.deleteByPrimaryKey(map);
