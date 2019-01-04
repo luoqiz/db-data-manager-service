@@ -25,7 +25,7 @@ import io.swagger.annotations.ApiOperation;
 </#if>
 
 <#if swaggerEnable==true>
-@Api()
+@Api(tags = "${tempTableInfo.tableComment}")
 </#if>
 @RestController
 @RequestMapping("/${tempTableInfo.className?uncap_first}")
