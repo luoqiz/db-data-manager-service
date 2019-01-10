@@ -40,7 +40,8 @@ public class CodeGenerator {
 		CodeGenerationConfiguration cgdfg = new CodeGenerationConfiguration();
 //		cgdfg.setTableMatch("^qrtz.*");
 //		cgdfg.setTableMatch("event_record");
-		cgdfg.setTableMatch(".*");
+//		cgdfg.setTableMatch(".*");
+		cgdfg.setTableMatch("thematic_rules");
 		cgdfg.setAuthor("luoqiz");
 
 		cgdfg.setEntityTargetPackage("com.boya.db.domain");
@@ -49,9 +50,9 @@ public class CodeGenerator {
 		cgdfg.setSqlMapperTargetProject("src/main/resources");
 		cgdfg.setSqlMapperTargetPackage("sqlMapper/sys");
 		cgdfg.setTableAnnotation(true);
-//		cgdfg.setServiceTargetPackage("com.luoqiz.code.test.service");
-//		cgdfg.setServiceImplTargetPackage("com.luoqiz.code.test.serviceImpl");
-//		cgdfg.setControllerTargetPackage("com.luoqiz.code.test.controller");
+		cgdfg.setServiceTargetPackage("com.luoqiz.code.test.service");
+		cgdfg.setServiceImplTargetPackage("com.luoqiz.code.test.serviceImpl");
+		cgdfg.setControllerTargetPackage("com.luoqiz.code.test.controller");
 
 		cgdfg.setLombokEnable(true);
 		cgdfg.setSwaggerEnable(true);

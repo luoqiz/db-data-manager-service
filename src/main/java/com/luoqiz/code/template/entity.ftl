@@ -56,7 +56,7 @@ public class ${tempTableInfo.className?cap_first} {
 	</#if>
 	@Column(name = "${columnInfo["dbColumnName"]}")
 	</#if>
-	private ${columnInfo["javaColumnType"]?cap_first} ${columnInfo["javaColumnName"]};	
+	private ${columnInfo["javaColumnType"]} ${columnInfo["javaColumnName"]};	
 	</#list>
 	<#if lombokEnable!=true>
 	<#list tempTableInfo.columnInfoList as columnInfo>

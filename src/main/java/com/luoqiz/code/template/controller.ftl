@@ -55,7 +55,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "部分数据添加", notes = "只对不为null的字段处理添加记录")
 	</#if>
     @PostMapping(value = "/saveSelective")
-    public int saveSelective(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception {
+    public int saveSelective(@RequestBody ${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception {
     <#list tempTableInfo.columnInfoList as columnInfo>
 	<#if columnInfo["nullValue"]==true>
 		<#if columnInfo["javaColumnType"] != 'boolean'>
@@ -72,7 +72,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "全数据更新", notes = "根据主键更新一条记录（所有字段更新）")
 	</#if>
     @PutMapping(value = "/update")
-    public int updateAllFiled(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateAllFiled(@RequestBody ${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Service.updateByPrimaryKey(${tempTableInfo.className?uncap_first});
     }
     
@@ -80,7 +80,7 @@ public class ${tempTableInfo.className}Controller{
 	@ApiOperation(value = "部分数据更新", notes = "根据主键更新一条记录（所有不为null的字段更新）")
 	</#if>
     @PatchMapping(value = "/update")
-    public int updateFiled(${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
+    public int updateFiled(@RequestBody ${tempTableInfo.className} ${tempTableInfo.className?uncap_first}) throws Exception{
         return ${tempTableInfo.className?uncap_first}Service.updateByPrimaryKeySelective(${tempTableInfo.className?uncap_first});
     }
     

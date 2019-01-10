@@ -18,11 +18,11 @@ public interface ColumnType {
 	public static final String LONG = "Long";
 	public static final String STRING = "String";
 	public static final String INTEGER = "Integer";
-	public static final String SHORT = "short";
-	public static final String FLOAT = "float";
-	public static final String DOUBLE = "double";
-	public static final String BOOLEAN = "boolean";
-	public static final String BYTE = "byte";
-	public static final String BYTE_ARRAY = "byte[]";
+	public static final String SHORT = "Short";
+	public static final String FLOAT = "Float";
+	public static final String DOUBLE = "Double";
+	public static final String BOOLEAN = "Boolean";
+	public static final String BYTE = "Byte";
+	public static final String BYTE_ARRAY = "Byte[]";
 	public static final String DATE_CAP = "Date";
 }
