@@ -139,13 +139,10 @@ public class MysqlManager extends DBmanagerAdapter {
 		case ColumnType.DATETIME:
 			columnInfo.setJavaColumnType(ColumnType.DATE_CAP);
 			break;
-			
+
 		case ColumnType.TIMESTAMP:
 			columnInfo.setJavaColumnType(ColumnType.DATE_CAP);
 			break;
-//		case ColumnType.BLOB:
-//			columnInfo.setJavaColumnType(ColumnType.BYTE_ARRAY);
-//			break;
 
 		default:
 			columnInfo.setJavaColumnType(ColumnType.STRING);

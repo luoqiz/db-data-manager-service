@@ -2,6 +2,7 @@ package com.luoqiz.code.constant;
 
 public interface ColumnType {
 
+	
 	public static final String BIGINT = "bigint";
 	public static final String VARCHAR = "varchar";
 	public static final String CHAR = "char";
@@ -14,6 +15,7 @@ public interface ColumnType {
 	public static final String MEDIUMTEXT = "mediumtext";
 	public static final String INT = "int";
 	public static final String BIT = "bit";
+	public static final String TEXT = "text";
 	
 	public static final String LONG = "Long";
 	public static final String STRING = "String";
@@ -25,4 +27,5 @@ public interface ColumnType {
 	public static final String BYTE = "Byte";
 	public static final String BYTE_ARRAY = "Byte[]";
 	public static final String DATE_CAP = "Date";
+	public static final String LONGVARCHAR = "LONGVARCHAR";
 }

@@ -41,7 +41,7 @@ public class CodeGenerator {
 //		cgdfg.setTableMatch("^qrtz.*");
 //		cgdfg.setTableMatch("event_record");
 //		cgdfg.setTableMatch(".*");
-		cgdfg.setTableMatch("thematic_rules");
+		cgdfg.setTableMatch("event_opinion_evaluation");
 		cgdfg.setAuthor("luoqiz");
 
 		cgdfg.setEntityTargetPackage("com.boya.db.domain");
@@ -272,7 +272,7 @@ public class CodeGenerator {
 				rd.close();
 				out.flush();
 				out.close();
-				log.info("%sService.java 接口文件所在路径：%s", tableInfo.getClassName(), file.getAbsolutePath());
+				log.info("{}Service.java 接口文件所在路径：{}", tableInfo.getClassName(), file.getAbsolutePath());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
