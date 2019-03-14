@@ -16,6 +16,7 @@ public interface ColumnType {
 	public static final String INT = "int";
 	public static final String BIT = "bit";
 	public static final String TEXT = "text";
+	public static final String LONGTEXT = "longtext";
 	
 	public static final String LONG = "Long";
 	public static final String STRING = "String";
